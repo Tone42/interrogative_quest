@@ -1,0 +1,112 @@
+# Database fields entry program
+
+import tkinter as tk
+import datetime
+
+root=tk.Tk()
+
+# setting windows size
+root.geometry("600x400")
+
+# declaring string variable
+# for entering information into the database
+
+date_field = tk.StringVar()
+chem_name_field = tk.StringVar()
+chem_location_field = tk.StringVar()
+sds_Link_field = tk.StringVar()
+photos_Link_field = tk.StringVar()
+name_field = tk.StringVar()
+
+# defining the function that will
+# get the what and why etc. and
+# print them on the screen
+def submit():
+
+    date = datetime.datetime.now()
+
+    chem_name = chem_name_field.get()
+    chem_location = chem_location_field.get()
+    sds_Link = sds_Link_field.get()
+    photos_Link = photos_Link_field.get()
+    name = name_field.get()
+
+    #Code for excel
+
+    from fileinput import filename
+    from openpyxl import Workbook
+
+    #Creates file
+    filename = "interogative_quest1.xlsx"
+
+    #Allows to work with fields
+    workbook = Workbook()
+    sheet = workbook.active
+
+    sheet["A1"] = date
+    sheet["B1"] = chem_name
+    sheet["C1"] = chem_location
+    sheet["D1"] = sds_Link
+    sheet["E1"] = photos_Link
+    sheet["F1"] = name
+
+    #save duh
+    workbook.save(filename=filename)
+	
+    #This is what sets the fields when submit is pressed
+    chem_name_field.set("")
+    chem_location_field.set("")
+    sds_Link_field.set("")
+    photos_Link_field.set("")
+    name_field.set("")
+	
+# creating a label using widget Label
+# and
+# creating a entry using widget Entry
+
+
+chem_name_label = tk.Label(root, text = 'Name of the cheical: ', font=('calibre',10, 'bold'))
+chem_name_entry = tk.Entry(root,textvariable = chem_name_field, font=('calibre',10,'normal'))
+
+chem_location_label = tk.Label(root, text = 'Location of the chemical: ', font=('calibre',10, 'bold'))
+chem_locaiton_entry = tk.Entry(root,textvariable = chem_location_field, font=('calibre',10,'normal'))
+
+sds_Link_label = tk.Label(root, text = 'Link to the SDS: ', font=('calibre',10, 'bold'))
+sds_Link_entry = tk.Entry(root,textvariable = sds_Link_field, font=('calibre',10,'normal'))
+
+photos_Link_label = tk.Label(root, text = 'Link to photos of the chemical; ', font = ('calibre',10,'bold'))
+photos_Link_entry=tk.Entry(root, textvariable = photos_Link_field, font = ('calibre',10,'normal'))
+
+name_label = tk.Label(root, text = 'Name of person taking inventory: ', font=('calibre',10, 'bold'))
+name_entry=tk.Entry(root, textvariable = name_field, font = ('calibre',10,'normal'))
+
+
+
+# creates a button using the widgetthat will call the submit function
+
+sub_btn=tk.Button(root,text = 'Submit', command = submit)
+
+# placing the label and entry in
+# the required position using grid
+# method
+
+
+chem_name_label.grid(row=1,column=0)
+chem_name_entry.grid(row=1,column=1)
+
+chem_location_label.grid(row=2, column=0)
+chem_locaiton_entry.grid(row=2, column=1)
+
+sds_Link_label.grid(row=3, column=0)
+sds_Link_entry.grid(row=3, column=1)
+
+photos_Link_label.grid(row=4,column=0)
+photos_Link_entry.grid(row=4,column=1)
+
+name_label.grid(row=5, column=0)
+name_entry.grid(row=5, column=1)
+
+sub_btn.grid(row=7,column=1)
+
+#infinite loop
+root.mainloop()
